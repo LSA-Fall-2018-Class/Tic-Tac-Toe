@@ -6,13 +6,16 @@
       var PLAYER_ONE_SYMBOL = "X";
       var PLAYER_TWO_SYMBOL = "O";
 
-      // define constant vars to represent game status
+      // define constant variables to represent game status
       var GAME_CONTINUE = 0;
       var GAME_WINNER = 1;
       var GAME_TIE = 2;
 
+      // variable to store whose turn it is
       var currentTurn = PLAYER_ONE_SYMBOL;
-      var numberOfMoves = 0; // if numberOfMoves reaches 9 and there is no winner, it's a tie!
+
+      // if numberOfMoves reaches 9 and there is no winner, it's a tie!
+      var numberOfMoves = 0;
 
       // retrieve the screen elements into global variables
       var board = document.getElementById("board");  // only 1 board, use ID
@@ -23,9 +26,11 @@
 // --- Click event on a board, but the actual event is on a square
       board.addEventListener('click', function(e)
       {
+
         // don't allow user to click on an occupied square or an empty square after the game is already over
         if ((e.target.innerHTML != "") || (foundWinner == true))
         {
+          console.log("Illegal Move");
           return;  // return immediately
         }
 
