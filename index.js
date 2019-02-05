@@ -23,10 +23,9 @@
       var results = document.getElementById("resultsText");
       var foundWinner = false;  // simple boolen for use in loop
 
-// --- Click event on a board, but the actual event is on a square
+// --- Click event on a board, but the actual event is on a square --------------
       board.addEventListener('click', function(e)
       {
-
         // don't allow user to click on an occupied square or an empty square after the game is already over
         if ((e.target.innerHTML != "") || (foundWinner == true))
         {
@@ -34,9 +33,9 @@
           return;  // return immediately
         }
 
-        // update square to current turn's symbol - legal play
+        // legal play if we get here - update square to current turn's symbol
         e.target.innerHTML = currentTurn;
-        numberOfMoves++;  // increase only if valid move
+        numberOfMoves++;  // if we hit 9 with no winner, we know its a tie
 
         var check = checkForWinner();  // function returns 1 of 3 game statuses - Continue, Tie, or Win
 
@@ -63,10 +62,14 @@
             replayButton.style.visibility = "visible";  // make the button visible
             break;
 
-          default:    // GAME_WINNER
+          case GAME_WINNER:
               results.innerHTML = currentTurn + " Won!";
               console.log (currentTurn + " Won!");
               replayButton.style.visibility = "visible";  // make the button visible
+
+          default:
+              results.innerHTML = "Error - Undefined game status.";
+              console.log ("Error - Undefined game status.");
 
         } // end switch
 
@@ -81,11 +84,10 @@
         numberOfMoves = 0; // if numberOfMoves reaches 9 and there is no winner, it's a tie!
         foundWinner = false;  // reset var
 
-        // blank out all squares
         var squares = document.querySelectorAll('.square');
 
+        // blank out all squares
         var i;
-
         for (i=0; i<squares.length; i++)
         {
           squares[i].innerHTML = ""; // set the square text to empty string
@@ -103,39 +105,20 @@
       {
         // initialize variables, retrieve array of squares
         var squares = document.querySelectorAll('.square');
+        var i;  // loop counter
+        var foundWinner = false;  // default to false
+
+        // This is a hard-coded array of winning square combinations
         var winningCombos =  [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]];
-        var i = 0;  // i will be used to iterate through the array of winningCombos
 
-        // loop until either a winner is found or you reach the end of the winning combos array
-        while ((foundWinner == false) && (i < winningCombos.length))
-        {
-          // take an extra step to store winning combo numbers
-          // individually for easier reading
-          var firstNum = winningCombos[i][0];  // first position (remember arrays start at 0)
-          var secondNum = winningCombos[i][1]; // second position
-          var thirdNum = winningCombos[i][2];  // third position
+        // Check the squares owned by the current player against the winningCombo array
+        // Check the whole array unless you find a winner, then stop looking
 
-          // console.log ("Current winningCombo we're checking: " + winningCombos[i]);
-          // console.log ("First symbol: " + squares[firstNum].innerHTML);
-          // console.log ("Second symbol: " + squares[secondNum].innerHTML);
-          // console.log ("Third symbol: " + squares[secondNum].innerHTML);
+        // Put your code here...
 
-          // if all 3 places in the winning combo match the current turn, you found a winner
-          if( (squares[firstNum].innerHTML == currentTurn) && (squares[secondNum].innerHTML == currentTurn) && (squares[thirdNum].innerHTML == currentTurn))
-          {
-            foundWinner = true;  // this will cause the loop to end at the next while statement
-          }
+        // Return the correct game status to the calling function
+        // Could be continue, tie, or win
 
-          i++;  // move to the next winning combo, loop will end if we reach end of winning combos and no winner found
-
-        }  //  end while loop
-
-        if ((foundWinner == false) && (numberOfMoves == 9))
-          return GAME_TIE;
-
-        if (foundWinner == true)
-          return GAME_WINNER;
-        else
-          return GAME_CONTINUE;
+        // Put your code here...
 
       }  // End Check for Winner function -----------------------------------------
